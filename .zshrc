@@ -7,6 +7,7 @@ autoload -Uz compinit
 setopt appendhistory autocd nomatch notify
 unsetopt beep
 bindkey -v #vim key
+bindkey -M vicmd '?' history-incremental-search-backward
 
 zstyle :compinstall filename '/home/marius/.zshrc'
 
