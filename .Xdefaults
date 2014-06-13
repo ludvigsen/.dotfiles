@@ -1,0 +1,65 @@
+URxvt*termName : xterm
+!TomorrowNightEighties
+
+*.foreground:   #cccccc
+*.background:   #2d2d2d
+*.cursorColor:  #aeafad
+
+! Black / Grey
+*.color0:       #000000
+*.color8:       #666666
+
+! Red / Bright Red
+*.color1:       #f2777a
+*.color9:       #FF3334
+
+! Green + Bright Green
+*.color2:       #99cc99
+*.color10:      #9ec400
+
+! Yellow (Orange) + Bright Yellow (Yellow)
+    *.color3:       #f99157
+    *.color11:      #ffcc66
+
+! Blue + Bright Blue
+    *.color4:       #6699cc
+    *.color12:      #6699cc
+
+! Magenta (Purple) + Bright Magenta
+    *.color5:       #cc99cc
+    *.color13:      #b777e0
+
+! Cyan (Aqua) + Bright Cyan
+    *.color6:       #66cccc
+    *.color14:      #54ced6
+
+! Light Grey (Selection) + White (Current Line)
+    *.color7:       #515151
+    *.color15:      #393939
+!
+
+! fonts
+! run "fc-list" for a list of available fonts
+urxvt*font: xft:DejaVu Sans Mono:size=12
+
+URxvt*scrollBar: False
+URxvt*scrollTtyOutput: False
+URxvt*scrollTtyKeypress: True
+URxvt*secondaryScroll: True
+URxvt*saveLines: 8000
+
+!URxvt.perl-ext-common : default,matcher
+URxvt.urlLauncher     : chromium
+URxvt.matcher.button  : 1
+
+! Tabs
+URxvt.perl-ext-common : tabbed
+URxvt.tabbed.tabbar-fg: 5
+URxvt.tabbed.tabbar-bg: 0
+URxvt.tabbed.tab-fg:    14
+URxvt.tabbed.tab-bg:    0
+
+! scrollbar style - rxvt (default), plain (most compact), next, or xterm
+URxvt*scrollstyle:plain
+URxvt.scrollBar: on
+!URxvt.intensityStyles: false

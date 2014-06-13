@@ -7,7 +7,6 @@ autoload -Uz compinit
 setopt appendhistory autocd nomatch notify
 unsetopt beep
 bindkey -v #vim key
-bindkey -M vicmd '?' history-incremental-search-backward
 
 zstyle :compinstall filename '/home/marius/.zshrc'
 
@@ -37,7 +36,7 @@ export PS2="$(print '%{\e[0;34m%}>%{\e[0m%}')"
 #export GOARCH=amd64
 #export GOBIN=$GOROOT/bin
 #export PATH=$PATH:$GOBIN:/opt/andro
-export PATH=$PATH:/home/marius/Programmering/Program/android-sdk-linux_x86/tools/:/home/marius/Programmering/Program/android-sdk-linux_x86/platform-tools/:/home/marius/.cabal/bin/:~/.gem/ruby/2.1.0/bin/
+export PATH=$PATH:/home/marius/Programmering/Program/android-sdk-linux_x86/tools/:/home/marius/Programmering/Program/android-sdk-linux_x86/platform-tools/:/home/marius/.cabal/bin/:/home/marius/.gem/ruby/2.1.0/bin/
 export GDK_NATIVE_WINDOWS=1
 export EDITOR="gvim"
 export PATH=$PATH:~/.script/
