@@ -1,13 +1,13 @@
 !---- Light URxvt (Solarized Light, 11pt)
 !*fading:                 40
-*background: #4A4A4A
-*foreground: #d8d8d8
+*background: #101010
+*foreground: #d0d0d0
 *cursorColor: #d0d0d0
 *color0: #101010
 *color1: #960050
-*color2: #6A9371
-*color3: #D9BA71
-*color4: #4D6E9D
+*color2: #66aa11
+*color3: #c47f2c
+*color4: #30309b
 *color5: #7e40a5
 *color6: #3579a8
 *color7: #9999aa
@@ -51,8 +51,8 @@ URxvt*termName : xterm
 !URxvt.depth: 32
 !
 !!run "fc-list" for a list of available fonts
-URxvt*font: xft:Tamsyn:pixelsize=18
-URxvt*boldFont: xft:Tamsyn:pixelsize=18
+URxvt*font: xft:Terminus:pixelsize=18
+URxvt*boldFont: xft:Terminus:pixelsize=18
 !URxvt*font: -*-terminus-medium-r-*-*-18-*-*-*-*-*-*-*
 !URxvt*boldFont: -*-terminus-medium-r-*-*-18-*-*-*-*-*-*-*
 !URxvt*font : -*-Terminusmodx.Icons-*-*-*-*-16-*-*-*-*-*-*-*
