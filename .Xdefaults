@@ -1,3 +1,11 @@
+! Fonts {{
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.hintstyle: hintfull
+Xft.dpi: 140
+!}}
+
 !---- Light URxvt (Solarized Light, 11pt)
 !*fading:                 40
 *background: #101010
@@ -51,9 +59,9 @@ URxvt*termName : xterm
 !URxvt.depth: 32
 !
 !!run "fc-list" for a list of available fonts
-URxvt*font: xft:Terminus:pixelsize=18
-URxvt*boldFont: xft:Terminus:pixelsize=18
-!URxvt*font: -*-terminus-medium-r-*-*-18-*-*-*-*-*-*-*
+URxvt*font: xft:Terminus:pixelsize=26
+URxvt*boldFont: xft:Terminus:pixelsize=26
+!URxvt*font: -*-terminus-medium-r-*-*-28-*-*-*-*-*-*-*
 !URxvt*boldFont: -*-terminus-medium-r-*-*-18-*-*-*-*-*-*-*
 !URxvt*font : -*-Terminusmodx.Icons-*-*-*-*-16-*-*-*-*-*-*-*
 !URxvt*boldFont : -*-Terminusmodx.Icons-*-*-*-*-16-*-*-*-*-*-*-*
