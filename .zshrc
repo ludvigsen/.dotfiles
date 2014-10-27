@@ -16,8 +16,8 @@ compinit
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ '
 
 # Aliases
-alias ls='ls -Gp'
-alias l='ls -Gp'
+alias ls='ls --color'
+alias l='ls --color'
 #alias eclipse='~/Programmering/program/eclipse/eclipse'
 alias av='sudo shutdown -h now'
 alias pacman32="pacman --root /opt/arch32 --cachedir /opt/arch32/var/cache/pacman/pkg --config /opt/arch32/pacman.conf"

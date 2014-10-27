@@ -2,8 +2,11 @@ Config {
 
    -- appearance
      font =         "xft:Bitstream Vera Sans Mono:size=11:bold:antialias=true"
-   , bgColor =      "black"
-   , fgColor =      "#646464"
+   --, bgColor =      "#00aacc"
+   , bgColor =      "#bebebe"
+   --, fgColor =      "#646464"
+   --, fgColor =      "white"
+   , fgColor =      "#555555"
    , position =     Top
    , border =       BottomB
    , borderColor =  "#646464"
@@ -45,7 +48,8 @@ Config {
         , Run DynNetwork     [ "--template" , "<dev>: <tx>kB/s|<rx>kB/s"
                              , "--Low"      , "1000"       -- units: kB/s
                              , "--High"     , "5000"       -- units: kB/s
-                             , "--low"      , "darkgreen"
+                             --, "--low"      , "darkgreen"
+                             , "--low"      , "black"
                              , "--normal"   , "darkorange"
                              , "--high"     , "darkred"
                              ] 10
@@ -54,7 +58,8 @@ Config {
         , Run MultiCpu       [ "--template" , "Cpu: <total0>%|<total1>|<total2>|<total3>%"
                              , "--Low"      , "50"         -- units: %
                              , "--High"     , "85"         -- units: %
-                             , "--low"      , "darkgreen"
+                             --, "--low"      , "darkgreen"
+                             , "--low"      , "black"
                              , "--normal"   , "darkorange"
                              , "--high"     , "darkred"
                              ] 10
@@ -63,7 +68,8 @@ Config {
         , Run CoreTemp       [ "--template" , "Temp: <core0>°C"
                              , "--Low"      , "70"        -- units: °C
                              , "--High"     , "80"        -- units: °C
-                             , "--low"      , "darkgreen"
+                             --, "--low"      , "darkgreen"
+                             , "--low"      , "black"
                              , "--normal"   , "darkorange"
                              , "--high"     , "darkred"
                              ] 50
@@ -72,7 +78,8 @@ Config {
         , Run Memory         [ "--template" ,"Mem: <usedratio>%"
                              , "--Low"      , "20"        -- units: %
                              , "--High"     , "90"        -- units: %
-                             , "--low"      , "darkgreen"
+                             --, "--low"      , "darkgreen"
+                             , "--low"      , "black"
                              , "--normal"   , "darkorange"
                              , "--high"     , "darkred"
                              ] 10
@@ -83,7 +90,8 @@ Config {
                              , "--High"     , "80"        -- units: %
                              , "--low"      , "darkred"
                              , "--normal"   , "darkorange"
-                             , "--high"     , "darkgreen"
+                             --, "--high"     , "darkgreen"
+                             , "--high"     , "black"
 
                              , "--" -- battery specific options
                                        -- discharging status
@@ -96,11 +104,12 @@ Config {
 
         -- time and date indicator 
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
-        , Run Date           "<fc=#ABABAB>%F (%a) %T</fc>" "date" 10
+        --, Run Date           "<fc=#ABABAB>%F (%a) %T</fc>" "date" 10
+        , Run Date           "<fc=#000000>%F (%a) %T</fc>" "date" 10
 
         -- keyboard layout indicator
-        , Run Kbd            [ ("no" 	     , "<fc=#008B00>NO</fc>")
-                             , ("us"         , "<fc=#008B00>US</fc>")
+        , Run Kbd            [ ("no" 	     , "<fc=#00FF00>NO</fc>")
+                             , ("us"         , "<fc=#00FF00>US</fc>")
                              ]
         , Run StdinReader
         ]

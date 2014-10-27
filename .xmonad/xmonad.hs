@@ -33,7 +33,8 @@ myWorkspaces = ["1:web", "2:code", "3:music", "4", "5", "6" ,"7", "8", "9"]
 myBar = "xmobar"
 
 -- Custom PP
-myPP = xmobarPP {ppCurrent = xmobarColor "#429942" "" . wrap "<" ">" }
+--myPP = xmobarPP {ppCurrent = xmobarColor "#429942" "" . wrap "<" ">" }
+myPP = xmobarPP {ppCurrent = xmobarColor "#000000" "" . wrap "<" ">" }
 
 -- Keybinding to toggle the gap for the bar
 toggleStrutsKey XConfig {XMonad.modMask = modMask } = (modMask, xK_b)
