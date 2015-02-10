@@ -82,7 +82,8 @@ URxvt*scrollBar: False
 URxvt*scrollTtyOutput: False
 URxvt*scrollTtyKeypress: True
 URxvt*secondaryScroll: True
-URxvt*saveLines: 8000
+URxvt*saveLines: 80000
+URxvt*loginShell: True
 
 !URxvt.perl-ext-common : default,matcher
 URxvt.urlLauncher     : firefox

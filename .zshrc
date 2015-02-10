@@ -36,12 +36,13 @@ export PS2="$(print '%{\e[0;34m%}>%{\e[0m%}')"
 #export GOARCH=amd64
 #export GOBIN=$GOROOT/bin
 #export PATH=$PATH:$GOBIN:/opt/andro
-export PATH=$PATH:/home/marius/Programmering/Program/android-sdk-linux_x86/tools/:/home/marius/Programmering/Program/android-sdk-linux_x86/platform-tools/:/home/marius/.cabal/bin/:/home/marius/.gem/ruby/2.1.0/bin/
+export PATH=$PATH:/home/marius/Programmering/Program/android-sdk-linux_x86/tools/:/home/marius/Programmering/Program/android-sdk-linux_x86/platform-tools/:/home/marius/.cabal/bin/:/home/marius/.gem/ruby/2.1.0/bin/:/usr/lib/node_modules/karma/bin/:/home/marius/.gem/ruby/2.2.0/bin
 export GDK_NATIVE_WINDOWS=1
 export EDITOR="vim"
 export PATH=$PATH:~/.script/
 export PACMAN=pacman
 export TERM=rxvt-256color
+export CHROME_BIN=google-chrome-stable
 
 # Auto extensions
 alias -s html=$EDITOR
@@ -116,3 +117,6 @@ elif type compctl &>/dev/null; then
   compctl -K _npm_completion npm
 fi
 ###-end-npm-completion-###
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export GEM_HOME=$(ruby -e 'print Gem.user_dir')
