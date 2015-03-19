@@ -6,7 +6,7 @@ SAVEHIST=50000
 autoload -Uz compinit
 setopt appendhistory autocd nomatch notify
 unsetopt beep
-bindkey -v #vim key
+bindkey -e #vim key
 
 zstyle :compinstall filename '/home/marius/.zshrc'
 
@@ -20,14 +20,14 @@ alias ls='ls -Gp'
 alias l='ls -Gp'
 #alias eclipse='~/Programmering/program/eclipse/eclipse'
 alias av='sudo shutdown -h now'
-alias pacman32="pacman --root /opt/arch32 --cachedir /opt/arch32/var/cache/pacman/pkg --config /opt/arch32/pacman.conf"
+#alias pacman32="pacman --root /opt/arch32 --cachedir /opt/arch32/var/cache/pacman/pkg --config /opt/arch32/pacman.conf"
 #alias yi="~/.cabal/bin/yi -f pango --as=emacs"
-alias yi="~/.cabal/bin/yi"
-alias ec="emacsclient"
+#alias yi="~/.cabal/bin/yi"
+#alias ec="emacsclient"
 
 # Prompt
-export PS1="$(print '%{\e[1;34m%}%n%{\e[0m%}'):$(print '%{\e[0;34m%}%~%{\e[0m%}')$ "
-export PS2="$(print '%{\e[0;34m%}>%{\e[0m%}')"
+#export PS1="$(print '%{\e[1;34m%}%n%{\e[0m%}'):$(print '%{\e[0;34m%}%~%{\e[0m%}')$ "
+#export PS2="$(print '%{\e[0;34m%}>%{\e[0m%}')"
 
 # Exports
 #complete -cf sudo
@@ -38,10 +38,10 @@ export PS2="$(print '%{\e[0;34m%}>%{\e[0m%}')"
 #export PATH=$PATH:$GOBIN:/opt/andro
 export PATH=$PATH:/home/marius/Programmering/Program/android-sdk-linux_x86/tools/:/home/marius/Programmering/Program/android-sdk-linux_x86/platform-tools/:/home/marius/.cabal/bin/:/home/marius/.gem/ruby/2.1.0/bin/
 export GDK_NATIVE_WINDOWS=1
-export EDITOR="gvim"
+export EDITOR="nvim"
 export PATH=$PATH:~/.script/
 export PACMAN=pacman
-export TERM=rxvt-256color
+#export TERM=rxvt-256color
 
 # Auto extensions
 alias -s html=$EDITOR
@@ -116,3 +116,4 @@ elif type compctl &>/dev/null; then
   compctl -K _npm_completion npm
 fi
 ###-end-npm-completion-###
+
