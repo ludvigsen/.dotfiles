@@ -1,3 +1,12 @@
+!URxvt.perl-ext-common: font-size
+! Fonts {{
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.hintstyle: hintfull
+Xft.dpi: 140
+!}}
+
 !---- Light URxvt (Solarized Light, 11pt)
 !*fading:                 40
 *background: #101010
@@ -51,9 +60,9 @@ URxvt*termName : xterm
 !URxvt.depth: 32
 !
 !!run "fc-list" for a list of available fonts
-URxvt*font: xft:Terminus:pixelsize=18
-URxvt*boldFont: xft:Terminus:pixelsize=18
-!URxvt*font: -*-terminus-medium-r-*-*-18-*-*-*-*-*-*-*
+URxvt*font: xft:Terminus:pixelsize=32
+URxvt*boldFont: xft:Terminus:pixelsize=32
+!URxvt*font: -*-terminus-medium-r-*-*-28-*-*-*-*-*-*-*
 !URxvt*boldFont: -*-terminus-medium-r-*-*-18-*-*-*-*-*-*-*
 !URxvt*font : -*-Terminusmodx.Icons-*-*-*-*-16-*-*-*-*-*-*-*
 !URxvt*boldFont : -*-Terminusmodx.Icons-*-*-*-*-16-*-*-*-*-*-*-*
@@ -73,20 +82,25 @@ URxvt*scrollBar: False
 URxvt*scrollTtyOutput: False
 URxvt*scrollTtyKeypress: True
 URxvt*secondaryScroll: True
-URxvt*saveLines: 8000
+URxvt*saveLines: 80000
+URxvt*loginShell: True
 
 !URxvt.perl-ext-common : default,matcher
 URxvt.urlLauncher     : firefox
 URxvt.matcher.button  : 1
 
 ! Tabs
-URxvt.perl-ext-common : tabbed
+URxvt.perl-ext-common : tabbed,font-size
 URxvt.tabbed.tabbar-fg: 5
 URxvt.tabbed.tabbar-bg: 0
 URxvt.tabbed.tab-fg:    14
 URxvt.tabbed.tab-bg:    0
 
+URxvt.keysym.C-Up: perl:font-size:increase
+URxvt.keysym.C-Down: perl:font-size:decrease
+
 ! scrollbar style - rxvt (default), plain (most compact), next, or xterm
 URxvt*scrollstyle:rxvt
 URxvt.scrollBar: on
 
+URxvt.jumpScroll: true

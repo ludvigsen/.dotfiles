@@ -16,8 +16,8 @@ compinit
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ '
 
 # Aliases
-alias ls='ls -Gp'
-alias l='ls -Gp'
+alias ls='ls --color'
+alias l='ls --color'
 #alias eclipse='~/Programmering/program/eclipse/eclipse'
 alias av='sudo shutdown -h now'
 #alias pacman32="pacman --root /opt/arch32 --cachedir /opt/arch32/var/cache/pacman/pkg --config /opt/arch32/pacman.conf"
@@ -36,12 +36,12 @@ alias av='sudo shutdown -h now'
 #export GOARCH=amd64
 #export GOBIN=$GOROOT/bin
 #export PATH=$PATH:$GOBIN:/opt/andro
-export PATH=$PATH:/home/marius/Programmering/Program/android-sdk-linux_x86/tools/:/home/marius/Programmering/Program/android-sdk-linux_x86/platform-tools/:/home/marius/.cabal/bin/:/home/marius/.gem/ruby/2.1.0/bin/
+export PATH=$PATH:/home/marius/Programmering/Program/android-sdk-linux_x86/tools/:/home/marius/Programmering/Program/android-sdk-linux_x86/platform-tools/:/home/marius/.cabal/bin/:/home/marius/.gem/ruby/2.1.0/bin/:/usr/lib/node_modules/karma/bin/:/home/marius/.gem/ruby/2.2.0/bin
 export GDK_NATIVE_WINDOWS=1
 export EDITOR="nvim"
 export PATH=$PATH:~/.script/
 export PACMAN=pacman
-#export TERM=rxvt-256color
+export CHROME_BIN=google-chrome-stable
 
 # Auto extensions
 alias -s html=$EDITOR
@@ -117,3 +117,5 @@ elif type compctl &>/dev/null; then
 fi
 ###-end-npm-completion-###
 
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export GEM_HOME=$(ruby -e 'print Gem.user_dir')
