@@ -16,17 +16,20 @@ compinit
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ '
 
 # Aliases
-alias ls='ls --color'
-alias l='ls --color'
+alias ls='ls -GF'
+alias l='ls -GF'
 #alias eclipse='~/Programmering/program/eclipse/eclipse'
 alias av='sudo shutdown -h now'
+alias tls='tmux list-sessions'
+alias t='tmux attach -t'
+alias dup="docker images | awk 'BEGIN {OFS=\":\";}NR<2 {next}{print \$1, \$2}' | xargs -L1 docker pull"
 #alias pacman32="pacman --root /opt/arch32 --cachedir /opt/arch32/var/cache/pacman/pkg --config /opt/arch32/pacman.conf"
 #alias yi="~/.cabal/bin/yi -f pango --as=emacs"
 #alias yi="~/.cabal/bin/yi"
 #alias ec="emacsclient"
 
 # Prompt
-#export PS1="$(print '%{\e[1;34m%}%n%{\e[0m%}'):$(print '%{\e[0;34m%}%~%{\e[0m%}')$ "
+export PS1="$(print '%{\e[1;34m%}%n%{\e[0m%}'):$(print '%{\e[0;34m%}%~%{\e[0m%}')$ "
 #export PS2="$(print '%{\e[0;34m%}>%{\e[0m%}')"
 
 # Exports
@@ -38,7 +41,7 @@ alias av='sudo shutdown -h now'
 #export PATH=$PATH:$GOBIN:/opt/andro
 export PATH=$PATH:/home/marius/Programmering/Program/android-sdk-linux_x86/tools/:/home/marius/Programmering/Program/android-sdk-linux_x86/platform-tools/:/home/marius/.cabal/bin/:/home/marius/.gem/ruby/2.1.0/bin/:/usr/lib/node_modules/karma/bin/:/home/marius/.gem/ruby/2.2.0/bin
 export GDK_NATIVE_WINDOWS=1
-export EDITOR="nvim"
+export EDITOR="vim"
 export PATH=$PATH:~/.script/
 export PACMAN=pacman
 export CHROME_BIN=google-chrome-stable
@@ -60,8 +63,6 @@ alias -s bz2=tar -xjvf
 alias -s java=$EDITOR
 alias -s txt=$EDITOR
 alias -s PKGBUILD=$EDITOR
-
-
 
 ###-begin-npm-completion-###
 #
@@ -117,5 +118,28 @@ elif type compctl &>/dev/null; then
 fi
 ###-end-npm-completion-###
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-export GEM_HOME=$(ruby -e 'print Gem.user_dir')
+#export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+#export GEM_HOME=$(ruby -e 'print Gem.user_dir')
+export PATH="$PATH:$HOME/.gem/ruby/2.0.0/bin"
+
+# KAFKA
+export KAFKA_HOME=/usr/local/kafka
+export KAFKA=/usr/local/kafka/bin
+export KAFKA_CONFIG=/usr/local/kafka/config
+
+export ANDROID_HOME=/usr/local/opt/android-sdk
+
+#eval "$(docker-machine env default)"
+
+# Convinient functions
+runApi(){
+  java -Dapi.local.properties=/Users/marius/api-configuration.properties -Dsolr.home.properties=/Users/marius/vimond/VimondRestAPI/docker/docker-solr.properties -jar core-api-web-standalone/build/libs/`ls -t core-api-web-standalone/build/libs | head -1` server --settings core-api-web-standalone/vimond_api_settings_local_vagrant.properties
+}
+
+compileAndRun(){
+  ./gradlew build -x test && runApi
+}
+
+migrateApi(){
+  java -jar core-api-web-standalone/build/libs/`ls -t core-api-web-standalone/build/libs | head -1` db migrate --non-interactive --settings core-api-web-standalone/vimond_api_settings_local_vagrant.properties
+}
