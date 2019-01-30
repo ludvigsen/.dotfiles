@@ -39,11 +39,11 @@ export PS1="$(print '%{\e[1;34m%}%n%{\e[0m%}'):$(print '%{\e[0;34m%}%~%{\e[0m%}'
 #export GOARCH=amd64
 #export GOBIN=$GOROOT/bin
 #export PATH=$PATH:$GOBIN:/opt/andro
-export PATH=$PATH:/home/marius/Programmering/Program/android-sdk-linux_x86/tools/:/home/marius/Programmering/Program/android-sdk-linux_x86/platform-tools/:/home/marius/.cabal/bin/:/home/marius/.gem/ruby/2.1.0/bin/:/usr/lib/node_modules/karma/bin/:/home/marius/.gem/ruby/2.2.0/bin
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home
+export PATH=$PATH:/home/marius/Programmering/Program/android-sdk-linux_x86/tools/:/home/marius/Programmering/Program/android-sdk-linux_x86/platform-tools/:/home/marius/.cabal/bin/:/home/marius/.gem/ruby/2.1.0/bin/:/usr/lib/node_modules/karma/bin/:/home/marius/.gem/ruby/2.2.0/bin:/home/marius/Apps/Android/tools/
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk/
 export GDK_NATIVE_WINDOWS=1
 export EDITOR="vim"
-export PATH=$PATH:~/.script/
+export PATH=$PATH:~/.scripts/
 export PACMAN=pacman
 export CHROME_BIN=google-chrome-stable
 
@@ -128,7 +128,9 @@ export KAFKA_HOME=/usr/local/kafka
 export KAFKA=/usr/local/kafka/bin
 export KAFKA_CONFIG=/usr/local/kafka/config
 
-export ANDROID_HOME=/usr/local/opt/android-sdk
+export ANDROID_HOME=/home/marius/Apps/Android
+export ANDROID_SDK=/home/marius/Apps/Android
+
 
 #eval "$(docker-machine env default)"
 
@@ -143,4 +145,96 @@ compileAndRun(){
 
 migrateApi(){
   java -jar core-api-web-standalone/build/libs/`ls -t core-api-web-standalone/build/libs | head -1` db migrate --non-interactive --settings core-api-web-standalone/vimond_api_settings_local_vagrant.properties
+}
+
+
+# Tmux sessions
+tinycast(){
+if tmux info &> /dev/null; then 
+  echo tmux running
+else
+  tmux start-server
+fi
+
+tmux has-session -t tinycast 2> /dev/null
+
+# Check the return value of previous command:
+if [[ $? -eq 0 ]]; then
+  echo "Session exists"
+else
+  tmux new-session -d -s tinycast -n Editor
+  tmux new-window -t tinycast:2 -n Server
+  tmux new-window -t tinycast:3 -n Terminal
+  tmux send-keys -t tinycast:1 "cd ~/tinycast/" C-m
+  tmux send-keys -t tinycast:2 "cd ~/tinycast/" C-m
+  tmux send-keys -t tinycast:3 "cd ~/tinycast/" C-m
+  tmux send-keys -t tinycast:1 "nvim" C-m
+  tmux send-keys -t tinycast:2 "npm start" C-m
+fi
+tmux select-window -t tinycast:1
+tmux attach-session -t tinycast
+}
+
+vcc-curation(){
+if tmux info &> /dev/null; then 
+  echo tmux running
+else
+  tmux start-server
+fi
+
+tmux has-session -t vcc-curation 2> /dev/null
+
+# Check the return value of previous command:
+if [[ $? -eq 0 ]]; then
+  echo "Session exists"
+else
+  tmux new-session -d -s vcc-curation -n Editor
+  tmux new-window -t vcc-curation:2 -n Test
+  tmux new-window -t vcc-curation:3 -n Server
+  tmux new-window -t vcc-curation:4 -n Terminal
+  tmux send-keys -t vcc-curation:1 "cd ~/vimond/vcc-curation/" C-m
+  tmux send-keys -t vcc-curation:2 "cd ~/vimond/vcc-curation/" C-m
+  tmux send-keys -t vcc-curation:3 "cd ~/vimond/vcc-curation/" C-m
+  tmux send-keys -t vcc-curation:4 "cd ~/vimond/vcc-curation/" C-m
+  tmux send-keys -t vcc-curation:1 "nvim" C-m
+  tmux send-keys -t vcc-curation:2 "npm run test-watch" C-m
+  tmux send-keys -t vcc-curation:3 "export CMS_TENANTS=\"[{'value': 'vimond', 'label': 'Vimond' },{ 'value': 'acme', 'label': 'Acme' }]\"; export CMS_API_SECRET=\"{SSHA}7cFtZruWJq7itGdtgI28K7/wRm07qybrm/T28w==\"; export CMS_API_URL=http://localhost:8080/api/; export CMS_PGSQL_USER='vimond'; export CMS_PGSQL_DB='tv2stage';export CMS_PGSQL_HOST='localhost'; export CMS_PGSQL_PASSWORD='peltonasje';export CMS_JWT_SECRET=d7a1ecf19a080d66a5e31dee61c65f2cad8ac56cdc28bfdda1a644e5e3849aa5fa272dea5c3603b7be68f73e3bf5de22ebf8c603fe35305b2c339998f5478103; npm run start-notest" C-m
+fi
+tmux select-window -t vcc-curation:1
+tmux attach-session -t vcc-curation
+}
+
+vimond-cms(){
+
+cd ~/vimond/vimond-cms
+
+if tmux info &> /dev/null; then 
+  echo tmux running
+else
+  tmux start-server
+fi
+
+tmux has-session -t vimond-cms 2> /dev/null
+# Check the return value of previous command:
+if [[ $? -eq 0 ]]; then
+  echo "Session exists"
+else
+  tmux new-session -d -s vimond-cms -n Editor
+  tmux new-window -t vimond-cms -n Test
+  tmux new-window -t vimond-cms -n "Server Backend"
+  tmux new-window -t vimond-cms -n "Server Frontend"
+  tmux new-window -t vimond-cms -n Terminal
+
+  tmux send-keys -t vimond-cms:1 "cd ~/vimond/vimond-cms/" C-m
+  tmux send-keys -t vimond-cms:2 "cd ~/vimond/vimond-cms/" C-m
+  tmux send-keys -t vimond-cms:3 "cd ~/vimond/vimond-cms/" C-m
+  tmux send-keys -t vimond-cms:4 "cd ~/vimond/vimond-cms/" C-m
+  tmux send-keys -t vimond-cms:5 "cd ~/vimond/vimond-cms/" C-m
+  tmux send-keys -t vimond-cms:1 "nvim" C-m
+  tmux send-keys -t vimond-cms:2 "npm run test-watch" C-m
+  tmux send-keys -t vimond-cms:3 "CMS_VIAM_CREDENTIALS='{\"domain\": \"vimond-dev.eu.auth0.com\", \"clientId\": \"wZXLUB3WbwogW7pn9SE1gYl4gELgymkz\", \"clientSecret\": \"HqWmShcNKdNecsblwYS4dGfFBczAN-pzH0JEhMFxDdDIc0a0dQovJUNs5h6lL2dK\"}' CMS_AUTH0_DOMAIN=vimond-dev.eu.auth0.com CMS_AUTH0_CLIENT_ID=wZXLUB3WbwogW7pn9SE1gYl4gELgymkz CMS_AUTH0_CLIENT_SECRET=HqWmShcNKdNecsblwYS4dGfFBczAN-pzH0JEhMFxDdDIc0a0dQovJUNs5h6lL2dK ./start-backend.sh dev d7a1ecf19a080d66a5e31dee61c65f2cad8ac56cdc28bfdda1a644e5e3849aa5fa272dea5c3603b7be68f73e3bf5de22ebf8c603fe35305b2c339998f5478103 asdf cur" C-m
+  tmux send-keys -t vimond-cms:4 "CMS_CURATION_SERVICE_URL_EXTERNAL=http://localhost:10016/ PORT=9090 ./start-frontend.sh dev cms cur" C-m
+fi
+tmux select-window -t vimond-cms:1
+tmux attach-session -t vimond-cms
 }

@@ -49,8 +49,9 @@ customKeys = M.fromList $
              ((mod1Mask .|. shiftMask, xK_m), spawn "~/.script/mpcStream && mpc play"),
              ((mod1Mask .|. shiftMask, xK_l), spawn "/home/marius/.script/layout;xmodmap ~/.xmodmap"),
              ((mod1Mask, xK_f), spawn "firefox"),
-             ((mod1Mask, xK_g), spawn "urxvt -e ncmpc -h qwxc.net -P Asdf1234!"),
-             ((mod1Mask, xK_p), spawn "dmenu_run -fn '-*-terminus-medium-r-*-*-28-*-*-*-*-*-*-*'"),
+             ((mod1Mask, xK_l), spawn "i3lock"),
+             --((mod1Mask, xK_g), spawn "urxvt -e ncmpc -h qwxc.net -P Asdf1234!"),
+             ((mod1Mask, xK_p), spawn "dmenu_run -fn '-*-terminus-medium-r-*-*-22-*-*-*-*-*-*-*'"),
              
              -- XF86AudioNext
              ((0            , 0x1008ff17), mpcAct "next"),

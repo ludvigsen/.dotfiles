@@ -1,7 +1,7 @@
 Config { 
 
    -- appearance
-     font =         "xft:Bitstream Vera Sans Mono:size=11:bold:antialias=true"
+     font =         "xft:SauceCodePro Nerd Font:size=28:bold:antialas=true"
    --, bgColor =      "#00aacc"
    , bgColor =      "#bebebe"
    --, fgColor =      "#646464"

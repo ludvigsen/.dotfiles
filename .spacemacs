@@ -29,7 +29,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(haskell
+   '(
+     windows-scriptshaskell
      lua
      python
      react
@@ -47,14 +48,18 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     ;; auto-completion
+     auto-completion
      ;; better-defaults
      emacs-lisp
      ;; git
      ;; markdown
      neotree
-     javascript
-     typescript
+     (javascript :variables
+                 node-add-modules-path t)
+     (typescript :variables
+                 typescript-backend 'lsp)
+                 ;--typescript-fmt-tool 'prettier
+                 ;--typescript-fmt-on-save t)
      org
       (shell :variables
              shell-default-height 30
@@ -149,11 +154,11 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+   dotspacemacs-default-font '("SauceCodePro Nerd Font"
+                               :size 18
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1.6)
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands `M-x' (after pressing on the leader key).
@@ -362,13 +367,94 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (require 'prettier-js)
+ ; (setq-default dotspacemacs-configuration-layers '(
+ ;                                                   (typescript :variables
+                                        ;                                                               tide-tsserver-executable "/usr/local/bin/tsserver")))
+
+(defun my-dpi ()
+  (let* ((attrs (car (display-monitor-attributes-list)))
+         (size (assoc 'mm-size attrs))
+         (sizex (cadr size))
+         (res (cdr (assoc 'geometry attrs)))
+         (resx (- (caddr res) (car res)))
+         dpi)
+    (catch 'exit
+      ;; in terminal
+      (unless sizex
+        (throw 'exit 10))
+      ;; on big screen
+      (when (> sizex 1000)
+        (throw 'exit 10))
+      ;; DPI
+      (* (/ (float resx) sizex) 25.4))))
+
+(defun my-preferred-font-size ()
+  (let ( (dpi (my-dpi)) )
+  (cond
+    ((< dpi 110) 10)
+    ((< dpi 130) 11)
+    ((< dpi 160) 12)
+    (t 12))))
+
+(defvar my-preferred-font-size (my-preferred-font-size))
+
+(defvar my-regular-font
+  (cond
+   ((eq window-system 'x) (format "SauceCodePro Nerd Font" my-preferred-font-size))
+   ((eq window-system 'w32) (format "SauceCodePro Nerd Font" my-preferred-font-size))))
+(defvar my-symbol-font
+  (cond
+   ((eq window-system 'x) (format "SauceCodePro Nerd Font" my-preferred-font-size))
+   ((eq window-system 'w32) (format "SauceCodePro Nerd Font" my-preferred-font-size))))
+
+(cond
+ ((eq window-system 'x)
+  (if (and (fboundp 'find-font) (find-font (font-spec :name my-regular-font)))
+      (set-frame-font my-regular-font)
+    (set-frame-font "7x14")))
+ ((eq window-system 'w32)
+  (set-frame-font my-regular-font)
+  (set-fontset-font nil 'cyrillic my-regular-font)
+  (set-fontset-font nil 'greek my-regular-font)
+  (set-fontset-font nil 'phonetic my-regular-font)
+  (set-fontset-font nil 'symbol my-symbol-font)))
+  (setq-default dotspacemacs-configuration-layers '(
+                                                    (typescript :variables typescript-backend 'lsp)))
+  (set-face-attribute 'mode-line nil :font "SauceCodePro Nerd Font Bold")
+  (setq-default
+   css-indent-offset 2
+   js-indent-level 2
+   js2-basic-offset 2
+   ring-bell-function (quote ignore)
+   rust-indent-method-chain nil
+   typescript-indent-level 2
+   web-mode-code-indent-offset 2
+   web-mode-css-indent-offset 2
+   web-mode-enable-auto-indentation t
+   web-mode-indent-style 2
+   web-mode-markup-indent-offset 2
+   web-mode-sql-indent-offset 2
+   )
   (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/"))
+  (setenv "PATH" (concat (getenv "PATH") ":/home/marius/.nvm/versions/node/v8.4.0/bin/"))
+  (require 'prettier-js)
+  ; (setq prettier-js-command "prettier-eslint_d")
   (setq mac-command-modifier 'control)
-  (set-face-attribute 'default nil :font "Knack Nerd Font-14")
+  ;(set-face-attribute 'default nil :font "Knack Nerd Font-14")
   (add-hook 'js2-mode-hook 'prettier-js-mode)
   (add-hook 'web-mode-hook 'prettier-js-mode)
   (add-hook 'typescript-mode-hook 'prettier-js-mode)
+  (defun setup-tide-mode ()
+    (interactive)
+    (tide-setup)
+    (flycheck-mode +1)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (eldoc-mode +1)
+    (tide-hl-identifier-mode +1)
+    ;; company is an optional dependency. You have to
+    ;; install it separately via package-install
+    (company-mode +1))
+  (add-hook 'typescript-mode-hook #'setup-tide-mode)
   (setq prettier-js-args '(
                            "--parser" "typescript"
                            "--trailing-comma" "all"
@@ -399,20 +485,7 @@ before packages are loaded."
        (add-to-list 'grep-find-ignored-files "nrcerts")
        (add-to-list 'grep-find-ignored-files "*.dump")))
 
-  (custom-set-variables
-   '(css-indent-offset 2)
-   '(js-indent-level 2)
-   '(js2-basic-offset 2)
-   '(ring-bell-function (quote ignore))
-   '(rust-indent-method-chain nil)
-   '(typescript-indent-level 2)
-   '(web-mode-code-indent-offset 2)
-   '(web-mode-css-indent-offset 2)
-   '(web-mode-enable-auto-indentation t)
-   '(web-mode-indent-style 2)
-   '(web-mode-markup-indent-offset 2)
-   '(web-mode-sql-indent-offset 2)
-   )
+  
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -429,7 +502,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (web-mode toc-org tide string-inflection rjsx-mode live-py-mode impatient-mode helm-projectile expand-region evil-matchit editorconfig dumb-jump dante counsel-projectile counsel swiper ivy ace-window smartparens window-purpose helm helm-core flycheck avy alert projectile magit ghub org-plus-contrib yapfify yaml-mode xterm-color ws-butler winum which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package typescript-mode tern tagedit symon sql-indent spaceline-all-the-icons solidity-mode smeargle slim-mode shell-pop seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe restart-emacs rbenv rake rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js popwin pippel pipenv pip-requirements persp-mode password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file nginx-mode neotree nameless multi-term move-text mmm-mode minitest markdown-toc magit-svn magit-gitflow macrostep lua-mode lorem-ipsum log4e livid-mode link-hint lcr json-navigator json-mode js2-refactor js-doc intero indent-guide importmagic imenu-list hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-css-scss helm-ag haskell-snippets google-translate golden-ratio gnuplot gntp gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-commit gh-md font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav dotenv-mode diminish define-word cython-mode csv-mode company-ghci company-ghc column-enforce-mode cmm-mode clean-aindent-mode chruby centered-cursor-mode bundler auto-highlight-symbol auto-compile anaconda-mode aggressive-indent ace-link ace-jump-helm-line))))
+    (sql-indent yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tide tagedit symon string-inflection spaceline-all-the-icons solidity-mode smeargle slim-mode shell-pop seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocop rspec-mode robe rjsx-mode restart-emacs rbenv rake rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js popwin pippel pipenv pip-requirements persp-mode password-generator paradox overseer orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file nginx-mode neotree nameless multi-term move-text mmm-mode minitest markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode link-hint json-navigator json-mode js2-refactor js-doc intero indent-guide importmagic impatient-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode diminish define-word dante cython-mode csv-mode counsel-projectile company-web company-tern company-statistics company-lua company-ghci company-ghc company-cabal company-anaconda column-enforce-mode cmm-mode clean-aindent-mode chruby centered-cursor-mode bundler auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -438,3 +511,17 @@ This function is called at the very end of Spacemacs initialization."
  )
 )
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (yapfify yaml-mode xterm-color ws-butler winum web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tide typescript-mode tagedit spaceline powerline solidity-mode smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe restart-emacs rbenv rake rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js popwin pip-requirements persp-mode pcre2el paradox spinner orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-bullets open-junk-file nginx-mode neotree multi-term move-text minitest markdown-toc markdown-mode magit-gitflow macrostep lua-mode lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode linum-relative link-hint json-snatcher js2-refactor multiple-cursors js-doc intero flycheck indent-guide hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-hoogle helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets haml-mode google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit ghub with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav dumb-jump diminish define-word cython-mode company-web web-completion-data company-tern dash-functional tern company-ghci company-ghc ghc haskell-mode company-cabal company-anaconda column-enforce-mode cmm-mode clean-aindent-mode chruby bundler inf-ruby bind-map bind-key auto-yasnippet auto-highlight-symbol auto-compile packed anaconda-mode pythonic ace-link ace-jump-helm-line helm helm-core ac-ispell auto-complete popup yasnippet which-key undo-tree sql-indent org-plus-contrib mmm-mode json-mode js2-mode hydra evil-unimpaired f s dash csv-mode company-statistics company coffee-mode async aggressive-indent adaptive-wrap ace-window avy))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
