@@ -27,6 +27,8 @@
     bootstrap_before =  "myspacevim#before"
     enable_neomake = false
     enable_ale = true
+    project_rooter_patterns = ['.git/', '_darcs/', '.hg/', '.bzr/', '.svn/']
+    project_rooter_outermost = false
 
 
 
@@ -71,6 +73,10 @@ name = 'git'
 name = 'whatyouhide/vim-tmux-syntax'
 merged = 0
 
+[[custom_plugins]]
+name = 'evanleck/vim-svelte'
+merged = 0
+
 [[layers]]
 name = "lsp"
 
@@ -87,4 +93,8 @@ name = "tools"
 name = "ui"
 
 [[layers]]
-name = "fzf"
+#name = "fzf"
+name="telescope"
+
+[[layers]]
+name = "lang#kotlin"

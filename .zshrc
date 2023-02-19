@@ -16,6 +16,9 @@ compinit
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ '
 
 # Aliases
+alias kswitchprod='kubectl config set-context --current --namespace=sumo-prod'
+alias kswitchstage='kubectl config set-context --current --namespace=sumo-stage'
+alias k='kubectl'
 alias ls='ls -GF'
 alias l='ls -GF'
 #alias eclipse='~/Programmering/program/eclipse/eclipse'
@@ -40,12 +43,18 @@ export PS1="$(print '%{\e[1;34m%}%n%{\e[0m%}'):$(print '%{\e[0;34m%}%~%{\e[0m%}'
 #export GOBIN=$GOROOT/bin
 #export PATH=$PATH:$GOBIN:/opt/andro
 export PATH=$PATH:/home/marius/Programmering/Program/android-sdk-linux_x86/tools/:/home/marius/Programmering/Program/android-sdk-linux_x86/platform-tools/:/home/marius/.cabal/bin/:/home/marius/.gem/ruby/2.1.0/bin/:/usr/lib/node_modules/karma/bin/:/home/marius/.gem/ruby/2.2.0/bin:/home/marius/Apps/Android/tools/
+export PATH=$PATH:~/.local/bin
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk/
 export GDK_NATIVE_WINDOWS=1
 export EDITOR="vim"
 export PATH=$PATH:~/.scripts/
+export DENO_INSTALL="/Users/marius/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
 export PACMAN=pacman
 export CHROME_BIN=google-chrome-stable
+
+# Run projects
+alias runSitemap='DB_PASSWORD=my-password;DB_URL=postgresql://localhost:5432/sitemap;DB_USERNAME=sitemap; /Users/marius/tv2/tv2play-api-sitemap/gradlew bootRun'
 
 # Auto extensions
 alias -s html=$EDITOR
