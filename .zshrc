@@ -7,6 +7,13 @@ autoload -Uz compinit
 setopt appendhistory autocd nomatch notify
 unsetopt beep
 bindkey -e #vim key
+setopt share_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_verify
+
+bindkey '^[[A' history-search-backward
+bindkey '^[[B' history-search-forward
 
 zstyle :compinstall filename '/home/marius/.zshrc'
 
@@ -16,20 +23,13 @@ compinit
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ '
 
 # Aliases
-alias kswitchprod='kubectl config set-context --current --namespace=sumo-prod'
-alias kswitchstage='kubectl config set-context --current --namespace=sumo-stage'
 alias k='kubectl'
-alias ls='ls -GF'
-alias l='ls -GF'
-#alias eclipse='~/Programmering/program/eclipse/eclipse'
-alias av='sudo shutdown -h now'
+#alias ls='ls -GF'
+alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
+alias l='ls'
 alias tls='tmux list-sessions'
 alias t='tmux attach -t'
 alias dup="docker images | awk 'BEGIN {OFS=\":\";}NR<2 {next}{print \$1, \$2}' | xargs -L1 docker pull"
-#alias pacman32="pacman --root /opt/arch32 --cachedir /opt/arch32/var/cache/pacman/pkg --config /opt/arch32/pacman.conf"
-#alias yi="~/.cabal/bin/yi -f pango --as=emacs"
-#alias yi="~/.cabal/bin/yi"
-#alias ec="emacsclient"
 
 # Prompt
 export PS1="$(print '%{\e[1;34m%}%n%{\e[0m%}'):$(print '%{\e[0;34m%}%~%{\e[0m%}')$ "
@@ -42,9 +42,12 @@ export PS1="$(print '%{\e[1;34m%}%n%{\e[0m%}'):$(print '%{\e[0;34m%}%~%{\e[0m%}'
 #export GOARCH=amd64
 #export GOBIN=$GOROOT/bin
 #export PATH=$PATH:$GOBIN:/opt/andro
+export GOPATH=/Users/marius/go
 export PATH=$PATH:/home/marius/Programmering/Program/android-sdk-linux_x86/tools/:/home/marius/Programmering/Program/android-sdk-linux_x86/platform-tools/:/home/marius/.cabal/bin/:/home/marius/.gem/ruby/2.1.0/bin/:/usr/lib/node_modules/karma/bin/:/home/marius/.gem/ruby/2.2.0/bin:/home/marius/Apps/Android/tools/
 export PATH=$PATH:~/.local/bin
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk/
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOROOT/bin
+export JAVA_HOME=/Users/marius/Library/Java/JavaVirtualMachines/corretto-17.0.6/Contents/Home
 export GDK_NATIVE_WINDOWS=1
 export EDITOR="vim"
 export PATH=$PATH:~/.scripts/
@@ -57,22 +60,22 @@ export CHROME_BIN=google-chrome-stable
 alias runSitemap='DB_PASSWORD=my-password;DB_URL=postgresql://localhost:5432/sitemap;DB_USERNAME=sitemap; /Users/marius/tv2/tv2play-api-sitemap/gradlew bootRun'
 
 # Auto extensions
-alias -s html=$EDITOR
-#alias -s org=$EDITOR
-alias -s php=$EDITOR
-#alias -s com=$EDITOR
-#alias -s net=$EDITOR
-alias -s png=feh
-alias -s jpg=feh
-alias -s gif=feg
-alias -s avi=mplayer
-alias -s sxw=soffice
-alias -s doc=abiword
-alias -s gz=tar -xzvf
-alias -s bz2=tar -xjvf
-alias -s java=$EDITOR
-alias -s txt=$EDITOR
-alias -s PKGBUILD=$EDITOR
+#alias -s html=$EDITOR
+##alias -s org=$EDITOR
+#alias -s php=$EDITOR
+##alias -s com=$EDITOR
+##alias -s net=$EDITOR
+#alias -s png=feh
+#alias -s jpg=feh
+#alias -s gif=feg
+#alias -s avi=mplayer
+#alias -s sxw=soffice
+#alias -s doc=abiword
+#alias -s gz=tar -xzvf
+#alias -s bz2=tar -xjvf
+#alias -s java=$EDITOR
+#alias -s txt=$EDITOR
+#alias -s PKGBUILD=$EDITOR
 
 ###-begin-npm-completion-###
 #
@@ -247,3 +250,74 @@ fi
 tmux select-window -t vimond-cms:1
 tmux attach-session -t vimond-cms
 }
+[ -f ~/.bin/fubectl.source ] && source ~/.bin/fubectl.source
+
+# ---- FZF -----
+
+# Set up fzf key bindings and fuzzy completion
+eval "$(fzf --zsh)"
+
+# -- Use fd instead of fzf --
+
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+
+# Use fd (https://github.com/sharkdp/fd) for listing path candidates.
+# - The first argument to the function ($1) is the base path to start traversal
+# - See the source code (completion.{bash,zsh}) for the details.
+_fzf_compgen_path() {
+  fd --hidden --exclude .git . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type=d --hidden --exclude .git . "$1"
+}
+
+source ~/.dotfiles/fzf-git.sh/fzf-git.sh
+
+# --- setup fzf theme ---
+fg="#CBE0F0"
+bg="#011628"
+bg_highlight="#143652"
+purple="#B388FF"
+blue="#06BCE4"
+cyan="#2CF9ED"
+
+export FZF_DEFAULT_OPTS="--color=fg:${fg},bg:${bg},hl:${purple},fg+:${fg},bg+:${bg_highlight},hl+:${purple},info:${blue},prompt:${cyan},pointer:${cyan},marker:${cyan},spinner:${cyan},header:${cyan}"
+
+show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
+
+export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+
+# Advanced customization of fzf options via _fzf_comprun function
+# - The first argument to the function is the name of the command.
+# - You should make sure to pass the rest of the arguments to fzf.
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+    export|unset) fzf --preview "eval 'echo ${}'"         "$@" ;;
+    ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
+  esac
+}
+
+# ----- Bat (better cat) -----
+
+export BAT_THEME=tokyonight_night
+
+# the fuck
+eval $(thefuck --alias)
+eval $(thefuck --alias fk)
+
+# ---- Zoxide (better cd) ----
+eval "$(zoxide init zsh)"
+alias cd="z"
+
+# theme
+echo "source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme" >> ~/.zshrc
