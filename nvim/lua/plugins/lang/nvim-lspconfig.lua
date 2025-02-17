@@ -11,6 +11,9 @@ return {
     end,
   },
   opts = {
+    inlay_hints = {
+      enabled = false,
+    },
     servers = {
       omnisharp = {
         handlers = {

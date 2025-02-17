@@ -55,6 +55,7 @@ export DENO_INSTALL="/Users/marius/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 export PACMAN=pacman
 export CHROME_BIN=google-chrome-stable
+export DOTNET_ROOT=$HOME/.dotnet
 
 # Run projects
 alias runSitemap='DB_PASSWORD=my-password;DB_URL=postgresql://localhost:5432/sitemap;DB_USERNAME=sitemap; /Users/marius/tv2/tv2play-api-sitemap/gradlew bootRun'

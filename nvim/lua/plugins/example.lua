@@ -84,17 +84,17 @@ return {
   },
 
   -- add pyright to lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- pyright will be automatically installed with mason and loaded with lspconfig
-        pyright = {},
-      },
-    },
-  },
+  --{
+  --  "neovim/nvim-lspconfig",
+  --  ---@class PluginLspOpts
+  --  opts = {
+  --    ---@type lspconfig.options
+  --    servers = {
+  --      -- pyright will be automatically installed with mason and loaded with lspconfig
+  --      pyright = {},
+  --    },
+  --  },
+  --},
 
   -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
   -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
@@ -103,24 +103,28 @@ return {
   -- add more treesitter parsers
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "bash",
-        "html",
-        "javascript",
-        "json",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "query",
-        "regex",
-        "tsx",
-        "typescript",
-        "vim",
-        "yaml",
-      },
-    },
+    opts = function()
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = {
+          "bash",
+          "html",
+          "javascript",
+          "json",
+          "lua",
+          "markdown",
+          "markdown_inline",
+          "python",
+          "query",
+          "regex",
+          "tsx",
+          "typescript",
+          "vim",
+          "yaml",
+        },
+      })
+      vim.treesitter.language.register("html", "ejs")
+      vim.treesitter.language.register("javascript", "ejs")
+    end,
   },
 
   -- since `vim.tbl_deep_extend`, can only merge tables and not lists, the code above
