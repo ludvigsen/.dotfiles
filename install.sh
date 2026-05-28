@@ -23,6 +23,9 @@ cd ~/.dotfiles/ || exit
 git clone https://github.com/junegunn/fzf-git.sh.git
 ln -s ~/.dotfiles/bat ~/.config/bat
 bat cache --build
+git clone https://github.com/0xTadash1/bat-into-tokyonight
+cd bat-into-tokyonight
+./bat-into-tokyonight
 
 #ln -s ~/.dotfiles/.Xresources ~/.Xresources
 #ln -s ~/.dotfiles/.xmonad ~/.xmonad

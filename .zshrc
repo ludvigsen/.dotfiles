@@ -54,7 +54,8 @@ export PATH=$PATH:/home/marius/Programmering/Program/android-sdk-linux_x86/tools
 export PATH=$PATH:~/.local/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
-export JAVA_HOME=/Users/marius/Library/Java/JavaVirtualMachines/corretto-17.0.6/Contents/Home
+export JAVA_HOME=/opt/homebrew/opt/openjdk/
+export JAVA_HOME=/opt/homebrew/opt/java
 export GDK_NATIVE_WINDOWS=1
 export EDITOR="vim"
 export PATH=$PATH:~/.scripts/
@@ -63,6 +64,7 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 export PACMAN=pacman
 export CHROME_BIN=google-chrome-stable
 export DOTNET_ROOT=$HOME/.dotnet
+#export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
 
 # Run projects
 alias runSitemap='DB_PASSWORD=my-password;DB_URL=postgresql://localhost:5432/sitemap;DB_USERNAME=sitemap; /Users/marius/tv2/tv2play-api-sitemap/gradlew bootRun'
@@ -327,15 +329,33 @@ eval $(thefuck --alias fk)
 eval "$(zoxide init zsh)"
 alias cd="z"
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+
+source /opt/homebrew/share/zsh/site-functions
+
+export PATH="/opt/homebrew/opt/dotnet@8/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # Added by Windsurf
 export PATH="/Users/marius/.codeium/windsurf/bin:$PATH"
 
-[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/marius/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/marius/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/marius/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/marius/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/marius/.lmstudio/bin"
+# End of LM Studio CLI section
+
+export DOTNET_ROOT="/usr/local/share/dotnet"
+export PATH="/usr/local/share/dotnet:$PATH"
+
+
+# Added by get-aspire-cli.sh
+export PATH="$HOME/.aspire/bin:$PATH"
